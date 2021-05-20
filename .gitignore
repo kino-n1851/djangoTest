@@ -1,4 +1,4 @@
-config/__pycache__/*
-app/migrations/__pycache__/*
-app/__pycache__/*
-app/templatetags/__pycache__/*
+mainServer/config/__pycache__/*
+mainServer/app/migrations/__pycache__/*
+mainServer/app/__pycache__/*
+mainServer/app/templatetags/__pycache__/*
