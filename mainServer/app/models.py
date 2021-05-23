@@ -12,7 +12,7 @@ class CustomUserManager(BaseUserManager):
         """
         if not username:
             raise ValueError('Users must have a username')
-        print("create")
+            print("create")
         user = self.model(
             username=username,
             date_of_birth=date_of_birth,
@@ -33,6 +33,7 @@ class CustomUserManager(BaseUserManager):
         user.is_admin = True
         user.save(using=self._db)
         return user
+
 
 class CustomUser(AbstractBaseUser):
 
@@ -55,6 +56,7 @@ class CustomUser(AbstractBaseUser):
     is_admin = models.BooleanField(
         default=False
     )
+
  
     manager = CustomUserManager()
  
@@ -79,3 +81,87 @@ class CustomUser(AbstractBaseUser):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
         return self.is_admin
+
+
+class Building(models.Model):
+    
+    id_building = models.AutoField(
+        verbose_name = '建物ID',
+        primary_key=True,
+    )
+
+    name_building = models.CharField(
+        verbose_name = '建物名',
+        max_length = 255,
+    )
+
+    address_lat = models.DecimalField(
+        verbose_name = '緯度',
+        max_digits=10, 
+        decimal_places=7,
+        default=0
+    )
+
+    address_lon = models.DecimalField(
+        verbose_name = '経度',
+        max_digits=10, 
+        decimal_places=7,
+        default=0
+    )
+
+    risk_rate = models.IntegerField(
+        verbose_name = '危険度',
+        blank = True,
+        null = True,
+        default = -1,
+    )
+
+    own_user = models.ForeignKey(
+        CustomUser,
+        verbose_name = '管理者',
+        on_delete = models.CASCADE,
+        null=True,
+    )
+
+    def __str__(self):
+        return self.name_building
+
+
+
+class VibrationData(models.Model):
+    id_vibration_data = models.AutoField(
+        verbose_name = '揺れデータ',
+        primary_key = True,
+    )
+
+    vibration_data = models.FileField(
+        upload_to='file/%Y/%m/%d',
+        blank=True,
+        null=True,
+    )
+ 
+    building = models.ForeignKey(
+        Building,
+        on_delete = models.CASCADE,
+        null = True,
+        blank=True,
+    )
+
+    def __str__(self):
+        return str(self.id_vibration_data)
+
+
+class Frequency(models.Model):
+    Frequency = models.FloatField(
+        verbose_name = "FFT結果",
+        blank = True,
+        null = True,
+        default = -1,
+    )
+
+    source = models.ForeignKey(
+        VibrationData,
+        on_delete=models.CASCADE,
+        null = True,
+        blank = True,
+    )
