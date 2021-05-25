@@ -12,7 +12,6 @@ class CustomUserManager(BaseUserManager):
         """
         if not username:
             raise ValueError('Users must have a username')
-            print("create")
         user = self.model(
             username=username,
             date_of_birth=date_of_birth,

@@ -2,22 +2,22 @@
 {% block content %} 
 {% load crispy_forms_tags %}
 <div class="container">
-    <div id="myModal" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">検索条件</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="閉じる">
+    <div id="building" class="building fade" tabindex="-1" role="dialog">
+        <div class="building-dialog" role="document">
+            <div class="building-content">
+                <div class="building-header">
+                    <h5 class="building-title">検索条件</h5>
+                    <button type="button" class="close" data-dismiss="building" aria-label="閉じる">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <form id="filter" method="get">
-                    <div class="modal-body">
+                    <div class="building-body">
                         {{filter.form|crispy}}
                     </div>
                 </form>
-                <div class="modal-footer">
-                    <a class="btn btn-outline-secondary" data-dismiss="modal">戻る</a>
+                <div class="building-footer">
+                    <a class="btn btn-outline-secondary" data-dismiss="building">戻る</a>
                     <button type="submit" class="btn btn-outline-secondary" form="filter">検索</button>
                 </div>
             </div>
@@ -27,8 +27,8 @@
         <div class="col-12">
             <a class="btn btn-secondary filtered" style="visibility:hidden" href="/?page=1">検索を解除</a>
             <div class="float-right">
-                <a class="btn btn-outline-secondary" href="{% url 'create' %}">新規</a>
-                <a class="btn btn-outline-secondary" data-toggle="modal" data-target="#myModal" href="#">検索</a>
+                <a class="btn btn-outline-secondary" href="{% url 'create' %}">新規</a> -->
+                <a class="btn btn-outline-secondary" data-toggle="building" data-target="#building" href="#">検索</a>
             </div>
         </div>
     </div>
@@ -42,36 +42,44 @@
     <div class="row">
         <div class="col-12">
             <ul class="list-group">
-                {% for item in item_list %}
-                <li class="list-group-item">
+                {% for building in building_list %}
+                <li class="list-group-building">
                     <div class="row">
                         <div class="col-3">
                             <p>名前</p>
                         </div>
                         <div class="col-9">
-                            <p>{{ item.name }}</p>
+                            <p>{{ building.name_building }}</p>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-3">
-                            <p>登録日</p>
+                            <p>ID</p>
                         </div>
                         <div class="col-9">
-                            <p>{{item.created_at|date:"Y/m/d G:i:s"}}</p>
+                            <p>{{building.id_building}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                            <p>管理者</p>
+                        </div>
+                        <div class="col-9">
+                            <p>{{building.own_user}}</p>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <div class="float-right">
-                                <a class="btn btn-outline-secondary " href="{% url 'detail' item.pk %}">詳細</a>
-                                <a class="btn btn-outline-secondary " href="{% url 'update' item.pk %}">編集</a>
-                                <a class="btn btn-outline-secondary " href="{% url 'delete' item.pk %}">削除</a>
+                                <a class="btn btn-outline-secondary " href="{% url 'detail' building.pk %}">詳細</a>
+                                <a class="btn btn-outline-secondary " href="{% url 'update' building.pk %}">編集</a>
+                                <a class="btn btn-outline-secondary " href="{% url 'delete' building.pk %}">削除</a>
                             </div>
                         </div>
                     </div>
                 </li>
                 {% empty %}
-                <li class="list-group-item">
+                <li class="list-group-building">
                     対象のデータがありません
                 </li>
                 {% endfor %}
@@ -82,7 +90,7 @@
         <div class="col-12">
             <div class="float-right">
                 <a class="btn btn-outline-secondary" href="{% url 'create' %}">新規</a>
-                <a class="btn btn-outline-secondary" data-toggle="modal" data-target="#myModal" href="#">検索</a>
+                <a class="btn btn-outline-secondary" data-toggle="building" data-target="#building" href="#">検索</a>
             </div>
         </div>
     </div>

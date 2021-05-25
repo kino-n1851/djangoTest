@@ -4,13 +4,25 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django_filters.views import FilterView
 
-#from .models import Item
+from .models import Building
 #from .filters import ItemFilter
 #from .forms import ItemForm
 
 from django.shortcuts import render
 
 # Create your views here.
+#LoginRequiredMixin,
+class BuildingsListView(FilterView):
+    model = Building
+
+    queryset = Building.objects.all().order_by('-name_building')
+    print(queryset)
+    strict = False
+    paginate_by = 10
+
+    def get(self, request, **kwargs):
+        print(super().get(request, **kwargs))
+        return super().get(request, **kwargs)
 """
 class ItemFilterView(LoginRequiredMixin, FilterView):
     model = Item
