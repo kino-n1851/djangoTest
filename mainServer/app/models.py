@@ -1,32 +1,33 @@
 from django.db import models
 from django.core import validators
+from PIL import *
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
 # Create your models here.
 class CustomUserManager(BaseUserManager):
-    def create_user(self, username, date_of_birth, password=None):
+    def create_user(self, userdata, password=None):
         """
         Creates and saves a User with the given email, date of
         birth and password.
         """
-        if not username:
+        if not userdata["name"]:
             raise ValueError('Users must have a username')
         user = self.model(
-            username=username,
-            date_of_birth=date_of_birth,
+            username=userdata["name"],
         )
  
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, username, date_of_birth, password=None):
+    def create_superuser(self, username, password=None):
         print("super1")
         user = self.create_user(
-            username,
+            userdata={
+                "name":username,
+            },
             password=password,
-            date_of_birth=date_of_birth,
         )
         print("super2")
         user.is_admin = True
@@ -45,6 +46,12 @@ class CustomUser(AbstractBaseUser):
         max_length=255,
         unique=True,
     )
+    email = models.EmailField(
+        verbose_name="メールアドレス",
+        max_length=255,
+        unique=True,
+        null=True,
+    )
     date_of_birth = models.DateField(
         blank = True,
         null = True,
@@ -60,7 +67,7 @@ class CustomUser(AbstractBaseUser):
     manager = CustomUserManager()
  
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['date_of_birth']
+    REQUIRED_FIELDS = []
  
     def __str__(self):
         return self.username
@@ -132,18 +139,18 @@ class VibrationData(models.Model):
         verbose_name = '揺れデータ',
         primary_key = True,
     )
-
-    vibration_data = models.FileField(
-        upload_to='file/%Y/%m/%d',
-        blank=True,
-        null=True,
-    )
  
     building = models.ForeignKey(
         Building,
         on_delete = models.CASCADE,
         null = True,
         blank=True,
+    )
+
+    vibration_data = models.FileField(
+        upload_to='files/%s/' % (str(id_vibration_data)),
+        blank=True,
+        null=True,
     )
 
     def __str__(self):
@@ -164,3 +171,33 @@ class Frequency(models.Model):
         null = True,
         blank = True,
     )
+
+def get_numberImage_path(instance, filename):
+    return "files/%s/%s" % (instance.own_user.username, filename)
+
+class NumberImage(models.Model):
+    imageName = models.CharField(
+        verbose_name = '画像ファイル名',
+        max_length = 255,
+    )
+
+    own_user = models.ForeignKey(
+        CustomUser,
+        verbose_name = '管理者',
+        on_delete = models.CASCADE,
+        null=False,
+    )
+
+    image = models.ImageField(
+        upload_to=get_numberImage_path,
+    )
+
+    number = models.PositiveSmallIntegerField(
+        null = True,
+        blank = True,
+        validators=[validators.MinValueValidator(0),
+                    validators.MaxValueValidator(9)],
+    )
+
+    def __str__(self):
+        return str(self.imageName)

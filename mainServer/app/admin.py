@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CustomUser, Building, VibrationData
+from .models import CustomUser, Building, VibrationData, Frequency, NumberImage
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
@@ -78,8 +78,9 @@ class UserAdmin(BaseUserAdmin):
     ordering = ('username',)
     filter_horizontal = ()
 
-
 admin.site.register(CustomUser, UserAdmin)
-admin.site.register(VibrationData)
 admin.site.register(Building)
+admin.site.register(VibrationData)
+admin.site.register(Frequency)
+admin.site.register(NumberImage)
 admin.site.unregister(Group)
