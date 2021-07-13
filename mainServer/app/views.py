@@ -10,6 +10,12 @@ from .models import Building
 
 from django.shortcuts import render
 
+from PIL import Image
+import json
+import base64
+from io import BytesIO
+import requests
+
 # Create your views here.
 #LoginRequiredMixin,
 class BuildingsListView(FilterView):
@@ -42,11 +48,37 @@ class ItemFilterView(LoginRequiredMixin, FilterView):
                     request.GET[key] = request.session['query'][key]
 
         return super().get(request, **kwargs)
-
+"""
 # 詳細画面
-class ItemDetailView(LoginRequiredMixin, DetailView):
-    model = Item
+class BuildingDetailView(LoginRequiredMixin, DetailView):
+    model = Building
 
+    
+    def get(self, request, **kwargs):
+        img = Image.open("./app/test6.png")
+        byte = BytesIO()
+        img.save(byte, format="png")
+        img_byte = byte.getvalue()
+        img_base64 = base64.b64encode(img_byte)
+        img_str = img_base64.decode("utf-8")
+        qqq = {
+            "img":img_str
+        }   
+        entry = {
+            "title":"postTest",
+            "body":"this body was sent by server",
+            "status":"null",
+            "author":"keino",
+        }
+        print(entry)
+        print(json.dumps(entry))
+        r = requests.post("http://172.16.22.155:8000/api/entries/",json=json.dumps(entry))
+        print(r)
+        print(r.json())
+        return super().get(request, **kwargs)
+   
+
+"""
 
 # 登録画面
 class ItemCreateView(LoginRequiredMixin, CreateView):

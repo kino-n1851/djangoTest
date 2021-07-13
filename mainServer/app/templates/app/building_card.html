@@ -1,41 +1,41 @@
 <div class="row">
     <div class="col-3">
-        <p>名前</p>
+        <p>建物名</p>
     </div>
     <div class="col-9">
-        <p>{{ item.name }}</p>
+        <p>{{ Building.name_building }}</p>
     </div>
 </div>
 <div class="row">
     <div class="col-3">
-        <p>年齢</p>
+        <p>建物ID</p>
     </div>
     <div class="col-9">
-        <p>{{ item.age }}</p>
+        <p>{{ Building.id_building }}</p>
     </div>
 </div>
 <div class="row">
     <div class="col-3">
-        <p>性別</p>
+        <p>緯度, 経度</p>
     </div>
     <div class="col-9">
-        <p>{{ item.get_sex_display }}</p>
+        <p>{{ Building.address_lat }}, {{ Building.address_lon }}</p>
     </div>
 </div>
 <div class="row">
     <div class="col-3">
-        <p>備考</p>
+        <p>危険度</p>
     </div>
     <div class="col-9">
-        <p>{{ item.memo|linebreaksbr }}</p>
+        <p>{{ Building.risk_rate }}</p>
     </div>
 </div>
 <div class="row">
     <div class="col-3">
-        <p>登録日</p>
+        <p>管理者</p>
     </div>
     <div class="col-9">
-        <p>{{ item.created_at|date:"Y/m/d G:i:s" }}</p>
+        <p>{{ Building.own_user }}</p>
     </div>
 </div>
 
