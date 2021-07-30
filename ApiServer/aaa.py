@@ -31,7 +31,7 @@ print(s[0])
 model.save("saved_model/model_a")
 """
 im = np.array(ImageOps.invert(Image.open('test6.png').convert('L')))
-new_model = tf.keras.models.load_model('saved_model/model_a')
+new_model = tf.keras.models.load_model('saved_model/model_a',compile=False)
 new_model.summary()
 s = new_model.predict_classes( im.reshape([1,28,28]) )
 print(s)
