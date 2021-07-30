@@ -72,7 +72,7 @@ class BuildingDetailView(LoginRequiredMixin, DetailView):
         }
         print(entry)
         print(json.dumps(entry))
-        r = requests.post("http://172.16.22.155:8000/api/entries/",json=json.dumps(entry))
+        r = requests.post("http://172.16.20.170:8000/api/hello/",json=json.dumps(qqq))
         print(r)
         print(r.json())
         return super().get(request, **kwargs)
