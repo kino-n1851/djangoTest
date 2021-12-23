@@ -55,24 +55,16 @@ class BuildingDetailView(LoginRequiredMixin, DetailView):
 
     
     def get(self, request, **kwargs):
-        img = Image.open("./app/test6.png")
+        img = Image.open("./app/machi2.jpg")
         byte = BytesIO()
         img.save(byte, format="png")
         img_byte = byte.getvalue()
         img_base64 = base64.b64encode(img_byte)
         img_str = img_base64.decode("utf-8")
-        qqq = {
+        req_img = {
             "img":img_str
         }   
-        entry = {
-            "title":"postTest",
-            "body":"this body was sent by server",
-            "status":"null",
-            "author":"keino",
-        }
-        print(entry)
-        print(json.dumps(entry))
-        r = requests.post("http://172.16.20.170:8000/api/hello/",json=json.dumps(qqq))
+        r = requests.post("http://172.16.20.170:8000/api/mosaic/",json=json.dumps(req_img))
         print(r)
         print(r.json())
         return super().get(request, **kwargs)
