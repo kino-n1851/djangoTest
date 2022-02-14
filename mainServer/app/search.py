@@ -26,8 +26,9 @@ def update():
         req_img = {
             "img":img_str
         }   
-        r = requests.post("http://172.16.20.170:8000/api/mosaic/",json=json.dumps(req_img))
-        #print(r.json())
+        r = requests.post("http://172.16.20.170:8000/api/mosaic/",
+                            json=json.dumps(req_img))
+
         if True:
             if not 'json' in r.headers.get('content-type'):
                 continue
@@ -55,7 +56,7 @@ def printt():
 
 def start():
     scheduler = BackgroundScheduler()
-    scheduler.add_job(update, 'interval', hours=1) # schedule
+    scheduler.add_job(update, 'interval', minutes=10) # schedule
     scheduler.start()
 
 if __name__ == "__main__":

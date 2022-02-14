@@ -58,20 +58,27 @@ def  mosaic_YOLO(request):
         data = request.data
         json_load = json.loads(data)
         img_str = json_load["img"]
+        target = json_load["target"]
 
-        img = base64.b64decode(img_str)
-        img = BytesIO(img)
-        img = Image.open(img)
-        img.save("received_YOLO.png")
-        r_img = yolo.detect_image(img)
-        r_img.save("convert_YOLO.png")
-        byte = BytesIO()
-        r_img.save(byte, format="png")
-        img_byte = byte.getvalue()
-        img_base64 = base64.b64encode(img_byte)
-        img_str = img_base64.decode("utf-8")
-        ret = {
-            "img":img_str
-        }   
+        if target == "person":
+            img = base64.b64decode(img_str)
+            img = BytesIO(img)
+            img = Image.open(img)
+            img.save("received_YOLO.png")
+            r_img = yolo.detect_image(img)
+            r_img.save("convert_YOLO.png")
+            byte = BytesIO()
+            r_img.save(byte, format="png")
+            r_img_byte = byte.getvalue()
+            r_img_base64 = base64.b64encode(r_img_byte)
+            r_img_str = img_base64.decode("utf-8")
+            ret = {
+                "img":r_img_str
+            }
+        else:
+            ret = {
+                "img":img_str
+            }
         return JsonResponse(ret)
+
     return Response(-1)
