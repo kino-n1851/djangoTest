@@ -17,6 +17,7 @@ from io import BytesIO
 import sys
 sys.path.append("/home/keino/YOLOv3")
 from keras_yolo3 import *
+from .image_cvt import img_to_str, str_to_img
 
 yolo_args = {   "model_path": '/home/keino/YOLOv3/keras_yolo3/model_data/yolo.h5',
         "anchors_path": '/home/keino/YOLOv3/keras_yolo3/model_data/yolo_anchors.txt',
@@ -61,17 +62,11 @@ def  mosaic_YOLO(request):
         target = json_load["target"]
 
         if target == "person":
-            img = base64.b64decode(img_str)
-            img = BytesIO(img)
-            img = Image.open(img)
+            img = str_to_img(img_str)
             img.save("received_YOLO.png")
             r_img = yolo.detect_image(img)
             r_img.save("convert_YOLO.png")
-            byte = BytesIO()
-            r_img.save(byte, format="png")
-            r_img_byte = byte.getvalue()
-            r_img_base64 = base64.b64encode(r_img_byte)
-            r_img_str = img_base64.decode("utf-8")
+            r_img_str = img_to_str(r_img)
             ret = {
                 "img":r_img_str
             }
