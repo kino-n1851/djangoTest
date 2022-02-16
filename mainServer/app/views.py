@@ -15,6 +15,7 @@ import json
 import base64
 from io import BytesIO
 import requests
+from .image_cvt import img_to_str, str_to_img
 
 # Create your views here.
 #LoginRequiredMixin,
@@ -56,13 +57,10 @@ class BuildingDetailView(LoginRequiredMixin, DetailView):
     
     def get(self, request, **kwargs):
         img = Image.open("./app/machi2.jpg")
-        byte = BytesIO()
-        img.save(byte, format="png")
-        img_byte = byte.getvalue()
-        img_base64 = base64.b64encode(img_byte)
-        img_str = img_base64.decode("utf-8")
+        img_str = img_to_str(img)
         req_img = {
-            "img":img_str
+            "img":img_str,
+            "target":"person"
         }   
         r = requests.post("http://172.16.20.170:8000/api/mosaic/",json=json.dumps(req_img))
         print(r)
