@@ -1,0 +1,1 @@
+python3 manage.py runsslserver 0.0.0.0:8000 --certificate ./ssl/ssl.crt --key ./ssl/ssl.key

@@ -22,18 +22,15 @@ class CustomUserManager(BaseUserManager):
         return user
 
     def create_superuser(self, username, password=None):
-        print("super1")
         user = self.create_user(
             userdata={
                 "name":username,
             },
             password=password,
         )
-        print("super2")
         user.is_admin = True
         user.save(using=self._db)
         return user
-
 
 class CustomUser(AbstractBaseUser):
 
@@ -52,10 +49,12 @@ class CustomUser(AbstractBaseUser):
         unique=True,
         null=True,
     )
+
     date_of_birth = models.DateField(
         blank = True,
         null = True,
     )
+
     is_active = models.BooleanField(
         default=True
     )
@@ -74,116 +73,91 @@ class CustomUser(AbstractBaseUser):
  
     def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"
-        # Simplest possible answer: Yes, always
         return True
  
     def has_module_perms(self, app_label):
         "Does the user have permissions to view the app `app_label`?"
-        # Simplest possible answer: Yes, always
         return True
  
     @property
     def is_staff(self):
         "Is the user a member of staff?"
-        # Simplest possible answer: All admins are staff
         return self.is_admin
 
-
-class Building(models.Model):
-    
-    id_building = models.AutoField(
-        verbose_name = '建物ID',
-        primary_key=True,
+class ImageStorage(models.Model):
+    id = models.AutoField(
+        verbose_name = 'ファイル保存先ID',
+        primary_key = True,
     )
 
-    name_building = models.CharField(
-        verbose_name = '建物名',
+    name = models.CharField(
+        verbose_name = '保存先識別名',
         max_length = 255,
-    )
-
-    address_lat = models.DecimalField(
-        verbose_name = '緯度',
-        max_digits=10, 
-        decimal_places=7,
-        default=0
-    )
-
-    address_lon = models.DecimalField(
-        verbose_name = '経度',
-        max_digits=10, 
-        decimal_places=7,
-        default=0
-    )
-
-    risk_rate = models.IntegerField(
-        verbose_name = '危険度',
-        blank = True,
-        null = True,
-        default = -1,
+        null = False,
+        blank = False,
     )
 
     own_user = models.ForeignKey(
         CustomUser,
-        verbose_name = '管理者',
+        verbose_name = '所有者',
         on_delete = models.CASCADE,
+        null=False,
+    )
+
+    server_type = models.CharField(
+        verbose_name = "サーバタイプ",
+        choices=[("ftp","ftp server"),("http", "http server")],
+        max_length = 255,
+    )
+
+    enable_update = models.BooleanField(
+        default = False,
+    )
+
+    _passwd = models.CharField(
+        max_length = 255,
+        null = True
+    )
+
+    ip = models.CharField(
+        max_length = 255,
+        default = "127.0.0.1"
+    )
+
+    user_ftp = models.CharField(
+        max_length = 255,
+        null = True
+    )
+
+    processing_type = models.CharField(
+        max_length = 255,
+        default = "nothing",
+        choices=[("mnist","mnist number recognition"),("mosaic_YOLO", "assign mosaic using YOLO"),("nothing","do nothing")],
         null=True,
     )
 
-    def __str__(self):
-        return self.name_building
-
-
-
-class VibrationData(models.Model):
-    id_vibration_data = models.AutoField(
-        verbose_name = '揺れデータ',
-        primary_key = True,
+    target = models.CharField(
+        max_length = 255,
+        choices=[("person", "person")],
+        default = "person",
+        null=True,
     )
  
-    building = models.ForeignKey(
-        Building,
-        on_delete = models.CASCADE,
-        null = True,
-        blank=True,
-    )
-
-    vibration_data = models.FileField(
-        upload_to='files/%s/' % (str(id_vibration_data)),
-        blank=True,
-        null=True,
-    )
-
     def __str__(self):
-        return str(self.id_vibration_data)
-
-
-class Frequency(models.Model):
-    Frequency = models.FloatField(
-        verbose_name = "FFT結果",
-        blank = True,
-        null = True,
-        default = -1,
-    )
-
-    source = models.ForeignKey(
-        VibrationData,
-        on_delete=models.CASCADE,
-        null = True,
-        blank = True,
-    )
+        return self.name
 
 def get_numberImage_path(instance, filename):
     return "files/%s/%s" % (instance.own_user.username, filename)
 
 class NumberImage(models.Model):
     imageName = models.CharField(
-        verbose_name = '画像ファイル名',
+        verbose_name = '画像名',
         max_length = 255,
     )
 
     own_user = models.ForeignKey(
         CustomUser,
-        verbose_name = '管理者',
+        verbose_name = '所有者',
         on_delete = models.CASCADE,
         null=False,
     )

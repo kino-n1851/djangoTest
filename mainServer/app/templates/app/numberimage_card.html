@@ -1,17 +1,9 @@
 <div class="row">
     <div class="col-3">
-        <p>ファイル名</p>
+        <p>画像ファイル名</p>
     </div>
     <div class="col-9">
-        <p>mnist_6</p>
-    </div>
-</div>
-<div class="row">
-    <div class="col-3">
-        <p>結果</p>
-    </div>
-    <div class="col-9">
-        <p>6</p>
+        <p>{{ numberimage.imageName }}</p>
     </div>
 </div>
 <div class="row">
@@ -19,7 +11,15 @@
         <p>ユーザー</p>
     </div>
     <div class="col-9">
-        <p>keino</p>
+        <p>{{ numberimage.own_user}}</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-3">
+        <p>認識結果</p>
+    </div>
+    <div class="col-9">
+        <p>{{ numberimage.number}}</p>
     </div>
 </div>
 

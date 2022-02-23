@@ -1,0 +1,17 @@
+{% extends "./_base.html" %}
+{% block content %}
+<div class="container">
+    <h2 class="text-left">トップページ</h2>
+    <div class="row">
+        <div class="col-12">
+            <a class="btn btn-outline-secondary float-left" href="{% url 'server_index'%}">画像保存サーバ</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <a class="btn btn-outline-secondary float-left" href="{% url 'image_index' %}">単一画像</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

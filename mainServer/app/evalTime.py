@@ -6,7 +6,7 @@ from io import BytesIO
 import base64
 import json
 import argparse
-
+#処理時間測定用
 def main()->None:
     parser = argparse.ArgumentParser()
     parser.add_argument("dir")

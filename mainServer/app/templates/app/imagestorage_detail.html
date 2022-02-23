@@ -4,14 +4,14 @@
     <h2 class="text-center">詳細表示</h2>
     <div class="row">
         <div class="col-12">
-            <a class="btn btn-outline-secondary float-right" href="{% url 'index' %}">解析</a>
+            <a class="btn btn-outline-secondary float-right" href="{% url 'server_analyze' imagestorage.pk %}">解析</a>
         </div>
     </div>
     <!--  -->
-    {% include "./building_card.html" %}
+    {% include "./imagestorage_card.html" %}
     <div class="row">
         <div class="col-12">
-            <a class="btn btn-outline-secondary float-right" href="{% url 'index' %}">戻る</a>
+            <a class="btn btn-outline-secondary float-right" href="{% url 'server_index' %}">戻る</a>
         </div>
     </div>
 </div>

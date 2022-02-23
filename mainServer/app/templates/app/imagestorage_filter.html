@@ -2,22 +2,22 @@
 {% block content %} 
 {% load crispy_forms_tags %}
 <div class="container">
-    <div id="building" class="building fade" tabindex="-1" role="dialog">
-        <div class="building-dialog" role="document">
-            <div class="building-content">
-                <div class="building-header">
-                    <h5 class="building-title">検索条件</h5>
-                    <button type="button" class="close" data-dismiss="building" aria-label="閉じる">
+    <div id="ImageStorage" class="ImageStorage fade" tabindex="-1" role="dialog">
+        <div class="ImageStorage-dialog" role="document">
+            <div class="ImageStorage-content">
+                <div class="ImageStorage-header">
+                    <h5 class="ImageStorage-title">検索条件</h5>
+                    <button type="button" class="close" data-dismiss="ImageStorage" aria-label="閉じる">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <form id="filter" method="get">
-                    <div class="building-body">
+                    <div class="ImageStorage-body">
                         {{filter.form|crispy}}
                     </div>
                 </form>
-                <div class="building-footer">
-                    <a class="btn btn-outline-secondary" data-dismiss="building">戻る</a>
+                <div class="ImageStorage-footer">
+                    <a class="btn btn-outline-secondary" data-dismiss="ImageStorage">戻る</a>
                     <button type="submit" class="btn btn-outline-secondary" form="filter">検索</button>
                 </div>
             </div>
@@ -27,8 +27,9 @@
         <div class="col-12">
             <a class="btn btn-secondary filtered" style="visibility:hidden" href="/?page=1">検索を解除</a>
             <div class="float-right">
-                <a class="btn btn-outline-secondary" href="{% url 'create' %}">新規</a> -->
-                <a class="btn btn-outline-secondary" data-toggle="building" data-target="#building" href="#">検索</a>
+                <a class="btn btn-outline-secondary" href="{% url 'server_create' %}">新規</a> 
+                <a class="btn btn-outline-secondary" data-toggle="ImageStorage" data-target="#ImageStorage" href="#">検索</a>
+                <a class="btn btn-outline-secondary" href="{% url 'index' %}">戻る</a>
             </div>
         </div>
     </div>
@@ -42,22 +43,22 @@
     <div class="row">
         <div class="col-12">
             <ul class="list-group">
-                {% for building in building_list %}
-                <li class="list-group-building">
+                {% for ImageStorage in ImageStorage_list %}
+                <li class="list-group-ImageStorage">
                     <div class="row">
                         <div class="col-3">
-                            <p>ファイル名</p>
+                            <p>サーバ識別名</p>
                         </div>
                         <div class="col-9">
-                            <p>{{ building.name_building }}</p>
+                            <p>{{ ImageStorage.name }}</p>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-3">
-                            <p>number</p>
+                            <p>サーバタイプ</p>
                         </div>
                         <div class="col-9">
-                            <p>{{building.risk_rate}}</p>
+                            <p>{{ ImageStorage.server_type }}</p>
                         </div>
                     </div>
                     <div class="row">
@@ -65,21 +66,21 @@
                             <p>ユーザー</p>
                         </div>
                         <div class="col-9">
-                            <p>{{building.own_user}}</p>
+                            <p>{{ImageStorage.own_user}}</p>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <div class="float-right">
-                                <a class="btn btn-outline-secondary " href="{% url 'detail' building.pk %}">詳細</a>
-                                <a class="btn btn-outline-secondary " href="{% url 'update' building.pk %}">編集</a>
-                                <a class="btn btn-outline-secondary " href="{% url 'delete' building.pk %}">削除</a>
+                                <a class="btn btn-outline-secondary " href="{% url 'server_detail' ImageStorage.pk %}">詳細</a>
+                                <a class="btn btn-outline-secondary " href="{% url 'server_update' ImageStorage.pk %}">編集</a>
+                                <a class="btn btn-outline-secondary " href="{% url 'server_delete' ImageStorage.pk %}">削除</a>
                             </div>
                         </div>
                     </div>
                 </li>
                 {% empty %}
-                <li class="list-group-building">
+                <li class="list-group-ImageStorage">
                     対象のデータがありません
                 </li>
                 {% endfor %}
@@ -89,8 +90,9 @@
     <div class="row" >
         <div class="col-12">
             <div class="float-right">
-                <a class="btn btn-outline-secondary" href="{% url 'create' %}">新規</a>
-                <a class="btn btn-outline-secondary" data-toggle="building" data-target="#building" href="#">検索</a>
+                <a class="btn btn-outline-secondary" href="{% url 'server_create' %}">新規</a>
+                <a class="btn btn-outline-secondary" data-toggle="ImageStorage" data-target="#ImageStorage" href="#">検索</a>
+                <a class="btn btn-outline-secondary" href="{% url 'index' %}">戻る</a>
             </div>
         </div>
     </div>
