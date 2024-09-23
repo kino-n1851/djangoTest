@@ -20,7 +20,7 @@ decorator==4.1.2
 distro-info===0.18ubuntu0.18.04.1
 Django==3.2.5
 django-filter==2.4.0
-djangorestframework==3.12.4
+djangorestframework==3.15.2
 entrypoints==0.2.3.post1
 gast==0.3.3
 google-pasta==0.1.8
